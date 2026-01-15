@@ -35,12 +35,11 @@
 
   <a-assets>
     <img id="fire" src="fire.png">
-    <audio id="music" src="ritual.mp3"></audio>
   </a-assets>
 
   <a-camera position="0 0 0" look-controls="enabled:false"></a-camera>
 
-  <a-entity id="target" mindar-image-target="targetIndex: 0">
+  <a-entity mindar-image-target="targetIndex: 0">
 
     <!-- FUEGO -->
     <a-plane
@@ -48,27 +47,12 @@
       transparent="true"
       width="1"
       height="1"
-      position="0 0 0"
-      animation="property: material.offset; from: 0 0; to: 1 0; dur: 800; loop: true">
+      position="0 0 0">
     </a-plane>
 
   </a-entity>
 
 </a-scene>
-
-<script>
-  const music = document.querySelector('#music');
-  const target = document.querySelector('#target');
-
-  target.addEventListener("targetFound", () => {
-    music.currentTime = 0;
-    music.play();
-  });
-
-  target.addEventListener("targetLost", () => {
-    music.pause();
-  });
-</script>
 
 </body>
 </html>
