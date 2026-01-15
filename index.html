@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>AquelARde</title>
+  <title>CARNESTOLENDAS – Aquelarre AR</title>
 
   <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
@@ -11,7 +11,7 @@
 
 <body style="margin:0; overflow:hidden;">
 
-<!-- Pantalla de desbloqueo de audio -->
+<!-- Pantalla para desbloquear audio -->
 <div id="tapToStart"
      style="
        position: fixed;
@@ -51,9 +51,9 @@
     <a-plane
       src="#fuegoImg"
       material="transparent: true; shader: flat; side: double; alphaTest: 0.5"
-      position="0 0 0.1"
-      width="1.3"
-      height="1.3"
+      position="0 -0.15 0.1"
+      width="0.6"
+      height="0.8"
 
       animation__flicker="
         property: scale;
@@ -65,7 +65,7 @@
 
       animation__float="
         property: position;
-        to: 0 0.05 0.1;
+        to: 0 -0.1 0.1;
         dir: alternate;
         dur: 900;
         loop: true;
@@ -83,13 +83,11 @@
 
   let audioUnlocked = false;
 
-  // Crear contexto de audio real (necesario para móviles)
   const AudioContext = window.AudioContext || window.webkitAudioContext;
   const audioContext = new AudioContext();
   const source = audioContext.createMediaElementSource(audio);
   source.connect(audioContext.destination);
 
-  // Desbloqueo por toque
   overlay.addEventListener("click", async () => {
     await audioContext.resume();
     audio.play();
@@ -98,21 +96,15 @@
 
     audioUnlocked = true;
     overlay.style.display = "none";
-
-    console.log("Audio desbloqueado");
   });
 
-  // Cuando la pintura aparece
   target.addEventListener("targetFound", () => {
     if (!audioUnlocked) return;
-    console.log("Pintura detectada – ritual activo");
     audio.play();
   });
 
-  // Cuando se pierde la pintura
   target.addEventListener("targetLost", () => {
     if (!audioUnlocked) return;
-    console.log("Pintura perdida – silencio");
     audio.pause();
   });
 </script>
