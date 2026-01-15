@@ -1,56 +1,85 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>CARNESTOLENDAS - AR</title>
+  <title>CARNESTOLENDAS – Aquelarre AR</title>
+
   <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body style="margin:0; overflow:hidden;">
-  <a-scene
-    mindar-image="imageTargetSrc: marker.mind;"
-    vr-mode-ui="enabled: false"
-    device-orientation-permission-ui="enabled: false">
 
-    <a-assets>
-      <img id="fuegoImg" src="fire.webp">
-      <audio id="musicaRitual" src="ritual.mp3" preload="auto"></audio>
-    </a-assets>
+<!-- PANTALLA DE DESBLOQUEO DE AUDIO -->
+<div id="tapToStart"
+     style="
+       position: fixed;
+       top: 0;
+       left: 0;
+       width: 100vw;
+       height: 100vh;
+       background: rgba(0,0,0,0.9);
+       color: white;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       z-index: 999;
+       font-family: sans-serif;
+       text-align: center;
+       font-size: 24px;
+       cursor: pointer;">
+  Toca para invocar el ritual 🔥
+</div>
 
-    <a-camera position="0 0 0" look-controls="enabled:false"></a-camera>
+<a-scene
+  mindar-image="imageTargetSrc: marker.mind;"
+  vr-mode-ui="enabled: false"
+  device-orientation-permission-ui="enabled: false">
 
-    <a-entity id="target" mindar-image-target="targetIndex: 0">
+  <a-assets>
+    <img id="fuegoImg" src="fire.webp">
+    <audio id="musicaRitual" src="ritual.mp3" preload="auto"></audio>
+  </a-assets>
 
-      <a-plane
-        src="#fuegoImg"
-        material="transparent: true; shader: flat; side: double; alphaTest: 0.5"
-        position="0 0 0.1"
-        height="1.2"
-        width="1.2"
-        animation__scale="property: scale; to: 0.8 1.5 1; dir: alternate; dur: 500; loop: true; easing: easeInOutSine"
-        animation__move="property: position; to: 0 0.05 0.1; dir: alternate; dur: 1000; loop: true; easing: easeInOutQuad">
-      </a-plane>
+  <a-camera position="0 0 0" look-controls="enabled:false"></a-camera>
 
-      <a-entity id="entidadSonido" sound="src: #musicaRitual; loop: true; volume: 1"></a-entity>
+  <!-- TARGET DE LA PINTURA -->
+  <a-entity id="target" mindar-image-target="targetIndex: 0">
 
+    <!-- FUEGO -->
+    <a-plane
+      src="#fuegoImg"
+      material="transparent: true; shader: flat; side: double; alphaTest: 0.5"
+      position="0 0 0.1"
+      width="1.3"
+      height="1.3"
+
+      animation__flicker="
+        property: scale;
+        to: 0.9 1.4 1;
+        dir: alternate;
+        dur: 400;
+        loop: true;
+        easing: easeInOutSine"
+
+      animation__float="
+        property: position;
+        to: 0 0.05 0.1;
+        dir: alternate;
+        dur: 900;
+        loop: true;
+        easing: easeInOutQuad">
+    </a-plane>
+
+    <!-- SONIDO -->
+    <a-entity id="entidadSonido"
+              sound="src: #musicaRitual; loop: true; volume: 1">
     </a-entity>
-  </a-scene>
 
-  <script>
-    const targetEl = document.querySelector('#target');
-    const sonido = document.querySelector('#entidadSonido');
+  </a-entity>
 
-    // Cuando se detecta la pintura
-    targetEl.addEventListener("targetFound", event => {
-      console.log("Pintura detectada: Iniciando ritual");
-      sonido.components.sound.playSound();
-    });
+</a-scene>
 
-    // Cuando se pierde la pintura de vista
-    targetEl.addEventListener("targetLost", event => {
-      console.log("Pintura perdida: Silencio");
-      sonido.components.sound.stopSound();
-    });
-  </script>
-</body>
-</html>
+<script>
+  const targetEl = document.querySe
