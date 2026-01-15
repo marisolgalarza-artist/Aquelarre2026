@@ -11,7 +11,7 @@
 
 <body style="margin:0; overflow:hidden;">
 
-<!-- PANTALLA DE DESBLOQUEO DE AUDIO -->
+<!-- Pantalla de desbloqueo de audio -->
 <div id="tapToStart"
      style="
        position: fixed;
@@ -44,7 +44,7 @@
 
   <a-camera position="0 0 0" look-controls="enabled:false"></a-camera>
 
-  <!-- TARGET DE LA PINTURA -->
+  <!-- Target de la pintura -->
   <a-entity id="target" mindar-image-target="targetIndex: 0">
 
     <!-- FUEGO -->
@@ -72,14 +72,50 @@
         easing: easeInOutQuad">
     </a-plane>
 
-    <!-- SONIDO -->
-    <a-entity id="entidadSonido"
-              sound="src: #musicaRitual; loop: true; volume: 1">
-    </a-entity>
-
   </a-entity>
 
 </a-scene>
 
 <script>
-  const targetEl = document.querySe
+  const overlay = document.getElementById("tapToStart");
+  const target = document.getElementById("target");
+  const audio = document.getElementById("musicaRitual");
+
+  let audioUnlocked = false;
+
+  // Crear contexto de audio real (necesario para móviles)
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  const audioContext = new AudioContext();
+  const source = audioContext.createMediaElementSource(audio);
+  source.connect(audioContext.destination);
+
+  // Desbloqueo por toque
+  overlay.addEventListener("click", async () => {
+    await audioContext.resume();
+    audio.play();
+    audio.pause();
+    audio.currentTime = 0;
+
+    audioUnlocked = true;
+    overlay.style.display = "none";
+
+    console.log("Audio desbloqueado");
+  });
+
+  // Cuando la pintura aparece
+  target.addEventListener("targetFound", () => {
+    if (!audioUnlocked) return;
+    console.log("Pintura detectada – ritual activo");
+    audio.play();
+  });
+
+  // Cuando se pierde la pintura
+  target.addEventListener("targetLost", () => {
+    if (!audioUnlocked) return;
+    console.log("Pintura perdida – silencio");
+    audio.pause();
+  });
+</script>
+
+</body>
+</html>
