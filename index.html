@@ -48,29 +48,30 @@
   <a-entity id="target" mindar-image-target="targetIndex: 0">
 
     <!-- FUEGO -->
-    <a-plane
-      src="#fuegoImg"
-      material="transparent: true; shader: flat; side: double; alphaTest: 0.5"
-      position="0 -0.5 0.1"
-      width="0.5"
-      height="0.5"
+   <a-plane
+    src="#fuegoImg"
+    material="transparent: true; shader: flat; side: double; alphaTest: 0.5"
+    position="0 -0.5 0.1"
+    width="0.5"
+    height="0.5"
+  
+    animation__flicker="
+      property: scale;
+      to: 0.6 0.7 1;
+      dir: alternate;
+      dur: 400;
+      loop: true;
+      easing: easeInOutSine"
+  
+    animation__float="
+      property: position;
+      to: 0 -0.45 0.1;
+      dir: alternate;
+      dur: 900;
+      loop: true;
+      easing: easeInOutQuad">
+  </a-plane>
 
-      animation__flicker="
-        property: scale;
-        to: 0.6 0.7 1;
-        dir: alternate;
-        dur: 400;
-        loop: true;
-        easing: easeInOutSine"
-
-      animation__float="
-        property: position;
-        to: -0.2 -0.3 0.1;
-        dir: alternate;
-        dur: 900;
-        loop: true;
-        easing: easeInOutQuad">
-    </a-plane>
 
   </a-entity>
 
