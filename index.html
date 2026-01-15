@@ -10,21 +10,28 @@
 <a-scene
   mindar-image="imageTargetSrc: marker.mind;"
   vr-mode-ui="enabled: false"
-  device-orientation-permission-ui="enabled: false">
+  device-orientation-permission-ui="enabled: false"
+  embedded>
+
+  <a-assets>
+    <video id="fire" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js/examples/image-tracking/assets/fire.mp4" loop autoplay muted playsinline></video>
+    <audio id="music" src="https://cdn.jsdelivr.net/gh/aframevr/assets/audio/backgroundnoise.wav" preload="auto"></audio>
+  </a-assets>
 
   <a-camera position="0 0 0" look-controls="enabled:false"></a-camera>
 
-  <a-entity mindar-image-target="targetIndex: 0">
+  <a-entity mindar-image-target="targetIndex: 0"
+            sound="src:#music; autoplay:true; loop:true; volume:0.5">
 
     <!-- FUEGO -->
-    <a-plane
-      src="https://cdn.jsdelivr.net/gh/marisol-ai-assets/fire.gif"
+    <a-video 
+      src="#fire"
       position="0 0 0"
-      height="1"
       width="1"
+      height="1"
       rotation="0 0 0"
-      transparent="true">
-    </a-plane>
+      opacity="0.9">
+    </a-video>
 
   </a-entity>
 </a-scene>
