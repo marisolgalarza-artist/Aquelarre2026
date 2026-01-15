@@ -1,31 +1,56 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>CARNESTOLENDAS</title>
+  <title>CARNESTOLENDAS - AR</title>
   <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 </head>
 
 <body style="margin:0; overflow:hidden;">
-<a-scene
-  mindar-image="imageTargetSrc: marker.mind;"
-  vr-mode-ui="enabled: false"
-  device-orientation-permission-ui="enabled: false">
+  <a-scene
+    mindar-image="imageTargetSrc: marker.mind;"
+    vr-mode-ui="enabled: false"
+    device-orientation-permission-ui="enabled: false">
 
-  <a-camera position="0 0 0" look-controls="enabled:false"></a-camera>
+    <a-assets>
+      <img id="fuegoImg" src="fire.webp">
+      <audio id="musicaRitual" src="ritual.mp3" preload="auto"></audio>
+    </a-assets>
 
-  <a-entity mindar-image-target="targetIndex: 0">
+    <a-camera position="0 0 0" look-controls="enabled:false"></a-camera>
 
-    <!-- FUEGO -->
-    <a-plane
-    material="src: fire.webp; transparent: true; shader: flat; side: double; alphaTest: 0.5"
-    position="0 0 0"
-    height="1"
-    width="1">
-  </a-plane>
+    <a-entity id="target" mindar-image-target="targetIndex: 0">
 
+      <a-plane
+        src="#fuegoImg"
+        material="transparent: true; shader: flat; side: double; alphaTest: 0.5"
+        position="0 0 0.1"
+        height="1.2"
+        width="1.2"
+        animation__scale="property: scale; to: 1.1 1.2 1; dir: alternate; dur: 500; loop: true; easing: easeInOutSine"
+        animation__move="property: position; to: 0 0.05 0.1; dir: alternate; dur: 1000; loop: true; easing: easeInOutQuad">
+      </a-plane>
 
-  </a-entity>
-</a-scene>
+      <a-entity id="entidadSonido" sound="src: #musicaRitual; loop: true; volume: 1"></a-entity>
+
+    </a-entity>
+  </a-scene>
+
+  <script>
+    const targetEl = document.querySelector('#target');
+    const sonido = document.querySelector('#entidadSonido');
+
+    // Cuando se detecta la pintura
+    targetEl.addEventListener("targetFound", event => {
+      console.log("Pintura detectada: Iniciando ritual");
+      sonido.components.sound.playSound();
+    });
+
+    // Cuando se pierde la pintura de vista
+    targetEl.addEventListener("targetLost", event => {
+      console.log("Pintura perdida: Silencio");
+      sonido.components.sound.stopSound();
+    });
+  </script>
 </body>
 </html>
