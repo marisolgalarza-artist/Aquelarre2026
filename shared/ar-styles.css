@@ -1,0 +1,23 @@
+/* Overlay compartido: pantalla de "toca para empezar" que desbloquea el audio */
+#tapToStart {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  font-family: sans-serif;
+  text-align: center;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+}
